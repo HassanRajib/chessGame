@@ -1,0 +1,14 @@
+
+
+:root {
+    --tile-size: 7rem;
+    --play-black: #ffffff;
+    --play-white: #000000;
+    --bg-color: #453d3c;
+}
+
+@media all and (max-width: 400px) {
+    :root {
+        --tile-size: 4rem;
+    }
+}
