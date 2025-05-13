@@ -2,11 +2,15 @@ import { useState, useRef } from 'react';
 import './Pieces.css';
 import Piece from './piece';
 import { createPosition, copyPosition } from '../../helper';
+import { useAppContext } from '../../contexts/Context';
+import { makeNewMove } from '../../reducer/actions/Move';
 
 const Pieces = () => {
-
     const ref = useRef()
-    const [state, setState] = useState(createPosition())
+    const { appState, dispatch } = useAppContext()
+
+    const currentPosition = appState.position[appState.position.length-1]
+    
 
     const calculatecoards = (e) => {
         const {width,left,top} = ref.current.getBoundingClientRect() 
@@ -17,7 +21,7 @@ const Pieces = () => {
     }
         // problem with this 
     const onDrop = (e) => {
-        const newPosition = copyPosition(state)
+        const newPosition = copyPosition( currentPosition)
         const {x,y} = calculatecoards(e)
 
         const [p,eank,file] = e.dataTransfer.getData('text').split(',')
@@ -25,7 +29,7 @@ const Pieces = () => {
         newPosition[eank][file] = ''
         newPosition[x][y] = p
 
-        setState(newPosition)
+        dispatch(makeNewMove({newPosition}))
     }
 
     const onDragOver = (e) => {
@@ -38,10 +42,10 @@ const Pieces = () => {
         onDragOver={onDragOver}
 
         className='pieces'>
-        {state.map((r,eank) => 
+        {currentPosition.map((r,eank) => 
             r.map((f,file) =>
-            state[eank][file]
-            ? <Piece key={eank+'-'+file} eank={eank} file={file} piece={state[eank][file]}/>
+            currentPosition[eank][file]
+            ? <Piece key={eank+'-'+file} eank={eank} file={file} piece={currentPosition[eank][file]}/>
             : null
             ))}
     </div>
