@@ -3,7 +3,7 @@ import './Pieces.css';
 import Piece from './piece';
 import { createPosition, copyPosition } from '../../helper';
 import { useAppContext } from '../../contexts/Context';
-import { makeNewMove } from '../../reducer/actions/Move';
+import { clearCandidates, makeNewMove } from '../../reducer/actions/Move';
 
 const Pieces = () => {
     const ref = useRef()
@@ -25,11 +25,16 @@ const Pieces = () => {
         const {x,y} = calculatecoards(e)
 
         const [p,eank,file] = e.dataTransfer.getData('text').split(',')
+
+        if (appState.candidateMoves?.find(m => m[0] === x && m[1] === y)){
         
         newPosition[eank][file] = ''
         newPosition[x][y] = p
 
         dispatch(makeNewMove({newPosition}))
+        }
+
+        dispatch(clearCandidates())
     }
 
     const onDragOver = (e) => {

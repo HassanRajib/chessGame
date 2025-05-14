@@ -23,3 +23,30 @@
 .white{
     background: var(--play-white);
 }
+
+.highlight:after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: calc(0.5*var(--tile-size));
+    height: calc(0.5*var(--tile-size));
+    background: yellowgreen;
+    border-radius: 50%;
+    left: 25%;
+    top: 25%;
+
+}
+
+
+.attacking:after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: calc(0.5*var(--tile-size));
+    height: calc(0.5*var(--tile-size));
+    background: red;
+    border-radius: 50%;
+    left: 25%;
+    top: 25%;
+
+}
