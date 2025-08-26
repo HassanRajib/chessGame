@@ -115,3 +115,49 @@ export const getKingMove = ({position, piece, eank, file}) => {
         )
         return moves
 }
+export const getPawnMove = ({position, piece, eank, file}) => {
+        const moves = []
+        const dir = piece === 'wp' ? 1 : -1
+
+        if (!position?.[eank+dir][file]){
+            moves.push([eank+dir,file])
+        }
+
+        if (eank % 5 === 1) {
+            if (position?.[eank+dir]?.[file] === '' && position?.[eank+dir+dir]?.[file] === ''){
+                moves.push([eank+dir+dir,file])
+            }
+        }    
+        return moves  
+}
+
+export const getPawnCaptures = ({position, pervPosition, piece, eank, file}) => {
+    const moves = []
+    const dir = piece === 'wp' ? 1 : -1
+    const enemy = piece[0] === 'w' ? 'b' : 'w'
+    // left
+    if (position?.[eank+dir]?.[file-1] && position?.[eank+dir]?.[file-1].startsWith(enemy)){
+        moves.push([eank+dir,file-1])
+    }
+    // right
+    if (position?.[eank+dir]?.[file+1] && position?.[eank+dir]?.[file+1].startsWith(enemy)){
+        moves.push([eank+dir,file+1])
+    }
+    //try hard
+    const enemyPawn = dir === 1 ? 'bp' : 'wp'
+    const adjacentFiles = [file-1,file+1]
+    if (pervPosition){
+        if ((dir === 1 && eank === 4) || (dir === -1 && eank === 3)){
+            adjacentFiles.forEach (f => {
+                if(position?.[eank]?.[f] === enemyPawn &&
+                    position?.[eank+dir+dir]?.[f] === '' &&
+                    pervPosition?.[eank]?.[f] === '' &&
+                    pervPosition?.[eank+dir+dir]?.[f] === enemyPawn){
+                        moves.push([eank+dir,f])
+                    }
+            })
+        }
+    }
+
+    return moves
+}

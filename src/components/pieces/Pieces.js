@@ -21,14 +21,17 @@ const Pieces = () => {
     }
         // problem with this 
     const onDrop = (e) => {
+        e.preventDefault()
+
         const newPosition = copyPosition( currentPosition)
         const {x,y} = calculatecoards(e)
 
         const [p,eank,file] = e.dataTransfer.getData('text').split(',')
 
         if (appState.candidateMoves?.find(m => m[0] === x && m[1] === y)){
-        
-        newPosition[eank][file] = ''
+         if(p.endsWith('p') && !newPosition[x][y] && x !== eank && y !== file)
+            newPosition[eank][y] = ''
+        newPosition[Number(eank)][Number(file)] = ''
         newPosition[x][y] = p
 
         dispatch(makeNewMove({newPosition}))
