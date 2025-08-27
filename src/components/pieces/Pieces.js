@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import './Pieces.css';
 import Piece from './piece';
-import { createPosition, copyPosition } from '../../helper';
 import { useAppContext } from '../../contexts/Context';
 import { clearCandidates, makeNewMove } from '../../reducer/actions/Move';
+import arbiter from '../../arbiter/Arbiter';
 
 const Pieces = () => {
     const ref = useRef()
@@ -19,25 +19,30 @@ const Pieces = () => {
         const x = 7 - Math.floor((e.clientY - top) / size)
         return{x,y}
     }
-        // problem with this 
-    const onDrop = (e) => {
-        e.preventDefault()
 
-        const newPosition = copyPosition( currentPosition)
+    const move = e => {
         const {x,y} = calculatecoards(e)
+    
+        const [piece,eank,file] = e.dataTransfer.getData('text').split(',')
+        if (appState.candidateMoves.find(m => m[0] === x && m[1] === y)){
+            const newPosition = arbiter.performMove(
+                {
+                    position : currentPosition,
+                    piece,eank,file, 
+                    x,y
+                })
 
-        const [p,eank,file] = e.dataTransfer.getData('text').split(',')
-
-        if (appState.candidateMoves?.find(m => m[0] === x && m[1] === y)){
-         if(p.endsWith('p') && !newPosition[x][y] && x !== eank && y !== file)
-            newPosition[eank][y] = ''
-        newPosition[Number(eank)][Number(file)] = ''
-        newPosition[x][y] = p
-
-        dispatch(makeNewMove({newPosition}))
+                dispatch(makeNewMove({newPosition}))
         }
 
         dispatch(clearCandidates())
+    }
+
+
+        // problem with this 
+    const onDrop = (e) => {
+        e.preventDefault()
+        move (e)
     }
 
     const onDragOver = (e) => {

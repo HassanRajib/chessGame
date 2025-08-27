@@ -33,7 +33,10 @@ const Board = () => {
             <div className='tile'>
                 {eanks.map((eank,i) => 
                     files.map((file,j) =>
-                        <div key={eank+'-'+file} className={getClassName(7-i,j)}>
+                        <div key={eank+'-'+file}
+                            // i= {i}
+                            // j={j}                        
+                         className={getClassName(7-i,j)}>
                             
                         </div>
                     ))}
