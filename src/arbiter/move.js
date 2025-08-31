@@ -2,7 +2,6 @@ import { copyPosition } from "../helper"
 
 export const movePiece = ({position, piece, eank, file, x, y}) => {
     const newPosition = copyPosition(position)
-    if(!newPosition[x][y] && x !== eank && y !== file)
   
     newPosition[eank][file] = ''
     newPosition[x][y] = piece

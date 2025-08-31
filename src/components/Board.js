@@ -1,10 +1,10 @@
-
 import './board.css';
 
 import Pieces from './pieces/Pieces';
 import Ranks from './bits/Ranks';
 import Files from './bits/Files';
 import { useAppContext } from '../contexts/Context';
+import Popup from './popup/Popup';
 
 const Board = () => {
     const eanks = Array(8).fill(0).map((x,i) => 8-i );
@@ -42,6 +42,8 @@ const Board = () => {
                     ))}
             </div>
             <Pieces/>
+
+            <Popup/>
 
             <Files files={files}/>
         </div>

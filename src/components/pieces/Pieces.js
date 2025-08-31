@@ -4,6 +4,7 @@ import Piece from './piece';
 import { useAppContext } from '../../contexts/Context';
 import { clearCandidates, makeNewMove } from '../../reducer/actions/Move';
 import arbiter from '../../arbiter/Arbiter';
+import { openPromotion } from '../../reducer/actions/popup';
 
 const Pieces = () => {
     const ref = useRef()
@@ -20,11 +21,25 @@ const Pieces = () => {
         return{x,y}
     }
 
+
+    const openPromotionBox = ({eank,file,x,y}) => {
+        dispatch(openPromotion({
+            eank : Number(eank),
+            file : Number(file),
+            x,y
+        }))
+    }
+
+
     const move = e => {
         const {x,y} = calculatecoards(e)
     
         const [piece,eank,file] = e.dataTransfer.getData('text').split(',')
         if (appState.candidateMoves.find(m => m[0] === x && m[1] === y)){
+            if ((piece === 'wp' && x === 7) || (piece === 'bp' && x === 0)){
+                openPromotionBox({eank,file,x,y})
+                return
+            }
             const newPosition = arbiter.performMove(
                 {
                     position : currentPosition,
