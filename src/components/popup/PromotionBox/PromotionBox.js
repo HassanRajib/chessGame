@@ -3,7 +3,7 @@ import { copyPosition } from '../../../helper'
 import { clearCandidates, makeNewMove } from '../../../reducer/actions/Move'
 import './PromotionBox.css'
 
-const PromotionBox = (onClosePopup) => {
+const PromotionBox = ({onClosePopup}) => {
     const options = ['q', 'r', 'b', 'n']
 
     const {appState, dispatch} = useAppContext()
