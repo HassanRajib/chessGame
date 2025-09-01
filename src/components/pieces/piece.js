@@ -4,7 +4,7 @@ import { genetrateCandidates } from "../../reducer/actions/Move";
 
 const Piece = ({ eank, file, piece }) => {
   const { appState, dispatch } = useAppContext();
-  const { turn, position : currentPosition } = appState;
+  const { turn, castleDirection, position : currentPosition } = appState;
   
 
   const onDragStart = (e) => {
@@ -17,6 +17,7 @@ const Piece = ({ eank, file, piece }) => {
       const candidateMoves = arbiter.getValidMove({
         position: currentPosition[currentPosition.length - 1],
         pervPosition: currentPosition[currentPosition.length - 2],
+        castleDirection : castleDirection[turn],
         piece,
         eank,
         file,
