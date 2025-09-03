@@ -1,4 +1,4 @@
-import { getBishopMove, getKingMove, getKnightMoves, getQueenMoves, getRookMoves, getPawnMove, getPawnCaptures, getCastlingMoves } from "./getMoves"
+import { getBishopMove, getKingMove, getKnightMoves, getQueenMoves, getRookMoves, getPawnMove, getPawnCaptures, getCastlingMoves, getKingPosition, getPieces } from "./getMoves"
 import { movePiece, movePawn } from "./move";
 
 
@@ -24,6 +24,7 @@ const arbiter = {
     },
     getValidMove : function ({position, castleDirection,pervPosition, piece, eank, file}){
         let moves = this.getRegulerMovers({position, piece, eank, file})
+        const notInCheckMoves = []
         if (piece.endsWith('p')){
             moves = [
                 ...moves,
@@ -31,13 +32,18 @@ const arbiter = {
             ]
         }
         
-        if (piece.endsWith('k')){
+        if (piece.endsWith('k'))
             moves = [
                 ...moves,
                 ...getCastlingMoves({position, castleDirection, piece, eank, file})
             ]
-        }
-        return moves
+        
+        moves.forEach(([x,y]) => {
+            const positionAfterMove = this.performMove({position, piece, eank, file,x,y})
+            if(!this.isPlayerInCheck({positionAfterMove,position,player: piece[0]}))
+                notInCheckMoves.push([x,y])
+        })  
+        return notInCheckMoves
     },
 
     performMove : function ({position,piece,eank,file,x,y}){
@@ -48,6 +54,33 @@ const arbiter = {
             return movePiece({position, piece, eank, file,x,y})
         }
 
+    },
+
+    isPlayerInCheck : function ({positionAfterMove,position,player}) {
+        const enemy = player.startsWith('w') ? 'b' : 'w'
+        let kingPos = getKingPosition(positionAfterMove,player)
+        const enemyPieces = getPieces(positionAfterMove,enemy)
+
+        const enemyMoves = enemyPieces.reduce((acc,p) => acc = [
+            ...acc,
+            ...(p.piece.endsWith('p')
+            ?  getPawnCaptures({
+                position: positionAfterMove,
+                pervPosition: position,
+                ...p
+            })
+            :  this.getRegulerMovers({
+                position : positionAfterMove,
+                ...p
+            })
+            )
+        ], [])
+
+        if (enemyMoves.some(([x,y]) => kingPos[0] === x && kingPos[1] === y))
+            return true
+
+        else
+        return false
     }
 }
 export default arbiter

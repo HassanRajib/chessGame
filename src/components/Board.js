@@ -5,6 +5,8 @@ import Ranks from './bits/Ranks';
 import Files from './bits/Files';
 import { useAppContext } from '../contexts/Context';
 import Popup from './popup/Popup';
+import arbiter from '../arbiter/Arbiter';
+import { getKingPosition } from '../arbiter/getMoves';
 
 const Board = () => {
     const eanks = Array(8).fill(0).map((x,i) => 8-i );
@@ -12,6 +14,17 @@ const Board = () => {
     
     const {appState} = useAppContext()
     const position = appState.position[appState.position.length -1]
+
+    const isChecked = (() => {
+         const isInCheck = arbiter.isPlayerInCheck({
+            positionAfterMove : position,
+            player : appState.turn
+        })
+        if (isInCheck)
+            return getKingPosition(position,appState.turn)
+
+        return null
+    })()
     
     const getClassName = (i,j) => {
         let c = 'liles'
@@ -23,6 +36,8 @@ const Board = () => {
             else
                 c+= ' highlight'
         }
+        if (isChecked && isChecked[0] === i && isChecked[1] === j)
+            c+= 'checked'
         return c
     }
 
