@@ -6,3 +6,10 @@ export const updateCastling = (direction) => {
         payload : direction
     }
 }
+
+export const detectStalmate = () => {
+    return {
+        type : actionTypes.STALEMATE,
+
+    }
+}

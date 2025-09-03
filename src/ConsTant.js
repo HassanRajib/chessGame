@@ -5,7 +5,8 @@ export const Status = {
     'ongoing' : 'Ongoing',
     'promoting' : 'promoting',
     'white' : "White wins",
-    'bslack' : "Black wins"
+    'black' : "Black wins",
+    'stalemate' : "game is drw"
 }
 
 export const initGameState = {
