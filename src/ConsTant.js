@@ -6,7 +6,8 @@ export const Status = {
     'promoting' : 'promoting',
     'white' : "White wins",
     'black' : "Black wins",
-    'stalemate' : "game is drw"
+    'stalemate' : "game is drw",
+    'insufficient' : 'Game draws due to insufficient material',
 }
 
 export const initGameState = {

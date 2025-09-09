@@ -12,3 +12,12 @@ html,body{
   height: 100vh;
   background: var(--bg-color);
 }
+
+button {
+  background: var(--play-white);
+  color: var(--play-black);
+  border: 0 none;
+  padding: 10px 30px;
+  margin: 10px 0;
+  font-size: 1.2em;
+}

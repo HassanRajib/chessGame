@@ -1,3 +1,4 @@
+import { initGameState } from "../../ConsTant"
 import actionTypes from "../ActionTypes"
 
 export const updateCastling = (direction) => {
@@ -10,6 +11,21 @@ export const updateCastling = (direction) => {
 export const detectStalmate = () => {
     return {
         type : actionTypes.STALEMATE,
+
+    }
+}
+
+export const detectInsufficientMaterial = () => {
+    return {
+        type : actionTypes.INSUFFICIENT_MATERIAL,
+
+    }
+}
+
+export const setupGame = () => {
+    return {
+        type : actionTypes.NEW_GAME,
+        payload : initGameState
 
     }
 }

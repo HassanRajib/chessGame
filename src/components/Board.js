@@ -8,6 +8,7 @@ import Popup from './popup/Popup';
 import arbiter from '../arbiter/Arbiter';
 import { getKingPosition } from '../arbiter/getMoves';
 import PromotionBox from './popup/PromotionBox/PromotionBox';
+import GameEnds from './popup/gameEnds/GameEnds';
 
 const Board = () => {
     const eanks = Array(8).fill(0).map((x,i) => 8-i );
@@ -61,7 +62,7 @@ const Board = () => {
 
             <Popup>
                 <PromotionBox/>
-                
+                <GameEnds/>
             </Popup>
 
             <Files files={files}/>
