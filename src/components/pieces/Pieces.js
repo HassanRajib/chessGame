@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import './Pieces.css';
 import Piece from './piece';
 import { useAppContext } from '../../contexts/Context';
@@ -6,7 +6,7 @@ import { clearCandidates, makeNewMove } from '../../reducer/actions/Move';
 import arbiter from '../../arbiter/Arbiter';
 import { openPromotion } from '../../reducer/actions/popup';
 import { getCastlingDirections } from '../../arbiter/getMoves';
-import { detectInsufficientMaterial, detectStalmate, updateCastling } from '../../reducer/actions/game';
+import { detectCheckmate, detectInsufficientMaterial, detectStalmate, updateCastling } from '../../reducer/actions/game';
 
 const Pieces = () => {
     const ref = useRef()
@@ -71,6 +71,8 @@ const Pieces = () => {
                     dispatch(detectInsufficientMaterial())
                 } else if (arbiter.isStalemate(newPosition,opponent, castleDirection)){
                     dispatch(detectStalmate())
+                } else if (arbiter.isCheckMade(newPosition,opponent, castleDirection)){
+                    dispatch(detectCheckmate())
                 }
         }
 
