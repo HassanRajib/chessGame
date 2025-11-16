@@ -11,6 +11,7 @@ html,body{
   place-content: center;
   height: 100vh;
   background: var(--bg-color);
+  grid-template-columns: auto 220px;
 }
 
 button {

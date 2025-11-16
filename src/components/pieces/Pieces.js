@@ -4,6 +4,7 @@ import Piece from './piece';
 import { useAppContext } from '../../contexts/Context';
 import { clearCandidates, makeNewMove } from '../../reducer/actions/Move';
 import arbiter from '../../arbiter/Arbiter';
+import { getnewMoveNotation } from '../../helper';
 import { openPromotion } from '../../reducer/actions/popup';
 import { getCastlingDirections } from '../../arbiter/getMoves';
 import { detectCheckmate, detectInsufficientMaterial, detectStalmate, updateCastling } from '../../reducer/actions/game';
@@ -65,7 +66,11 @@ const Pieces = () => {
                     x,y
                 })
 
-                dispatch(makeNewMove({newPosition}))
+                const newMove = getnewMoveNotation ({
+                    piece, eank, file, x, y, position : currentPosition
+                })
+
+                dispatch(makeNewMove({newPosition,newMove}))
 
                 if (arbiter.insufficientMaterial(newPosition,opponent, castleDirection)){
                     dispatch(detectInsufficientMaterial())
