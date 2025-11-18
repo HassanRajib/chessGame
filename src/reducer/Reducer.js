@@ -32,6 +32,21 @@ export const reducer = ( state, action ) => {
             }
         }
 
+        case actionTypes.TAKE_BACK : {
+            let {position, movesList, turn} = state
+
+            if(position.length > 1) {
+                position = position.slice(0,position.length-1)
+                movesList = movesList.slice(0,movesList.length-1)
+                turn = turn === 'w' ? 'b' : 'w'
+            }
+            return{
+                ...state,
+                position,
+                movesList,turn
+            }
+        }
+
         case actionTypes.CLEAR_CANDIDATE_MOVES : {
             return {
                 ...state,
