@@ -5,6 +5,7 @@
     --play-black: #ffffff;
     --play-white: #000000;
     --bg-color: #453d3c;
+    --check : #feec48
 }
 
 @media all and (max-width: 400px) {

@@ -15,7 +15,7 @@ const PromotionBox = ({onClosePopup}) => {
     const color = promotionSquare.x === 7 ? 'w' : 'b'
 
     const getPromotionBoxPosition = () => {
-        const style = {}
+        let style = {}
 
         if (promotionSquare.x===7)
             style.top = '-12.5%'
@@ -25,7 +25,7 @@ const PromotionBox = ({onClosePopup}) => {
 
         if (promotionSquare.y <= 1)
             style.left = '0%'
-        else if (promotionSquare.y >= 6)
+        else if (promotionSquare.y >= 5)
             style.right = '0%'
         else
             style.left = `${12.5 * promotionSquare.y - 20}%`
@@ -37,24 +37,24 @@ const PromotionBox = ({onClosePopup}) => {
         onClosePopup()
         const newPosition = copyPosition(appState.position[appState.position.length -1])
 
-        newPosition[promotionSquare.eank][promotionSquare.file] = ''
-        newPosition[promotionSquare.x][promotionSquare.y] = color + option
-
-        dispatch(clearCandidates())
+        newPosition[promotionSquare.eank][promotionSquare.file] = "";
+        newPosition[promotionSquare.x][promotionSquare.y] = color + option;
 
         const newMove = getnewMoveNotation ({
             ...promotionSquare,
-            piece : color + 'p',
-            promotesTo : color + option,
+            piece : promotionSquare.x === 7? 'wp' : 'bp',
+            promotesTo : option,
             position: appState.position[appState.position.length - 1]
         })
+        dispatch(clearCandidates())
+
 
         dispatch(makeNewMove({newPosition, newMove}))
 
     }
 
     return (
-        <div className='popup-inner promotion-choices' style={getPromotionBoxPosition()}>
+        <div className='popup--inner promotion-choices' style={getPromotionBoxPosition()}>
             {options.map(option => <div key={option} className={`piece ${color}${option}`} onClick={() => onClick(option)}></div>)}
         </div>
     )
